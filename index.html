@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidharth Mathur Perception Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:        #080c14;
+      --bg2:       #0d1321;
+      --bg3:       #111827;
+      --border:    rgba(0,212,255,0.12);
+      --accent:    #00d4ff;
+      --accent2:   #7b61ff;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --dim:       #94a3b8;
+      --card:      rgba(13,19,33,0.9);
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ─── GRID LINES ─── */
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── SECTIONS ─── */
+    section {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 7rem 2rem;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      height: 1px;
+      width: 60px;
+      background: var(--accent);
+      opacity: 0.4;
+      display: block;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── HERO ─── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 6rem;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 40px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--dim);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+    .hero-typed {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 2.5rem;
+      min-height: 1.5rem;
+    }
+    .hero-typed::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #080c14;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(226,232,240,0.2);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0.4;
+      animation: float 2s ease-in-out infinite;
+    }
+    .hero-scroll span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-photo-wrap {
+      position: relative;
+    }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 4px;
+      filter: grayscale(20%);
+    }
+    .about-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg3);
+      border-radius: 4px;
+      border: 1px dashed var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem;
+      color: var(--muted);
+    }
+    .about-photo-placeholder svg { opacity: 0.3; }
+    .about-photo-placeholder span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+    .about-photo-wrap::before {
+      content: '';
+      position: absolute;
+      top: 12px; left: 12px; right: -12px; bottom: -12px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+    .about-text p {
+      color: var(--dim);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .exp-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      box-shadow: 0 0 30px rgba(0,212,255,0.06);
+    }
+    .exp-role {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .exp-company {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+    .exp-bullets { list-style: none; margin-top: 1rem; }
+    .exp-bullets li {
+      font-size: 0.9rem;
+      color: var(--dim);
+      padding: 0.35rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+    .exp-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 3px;
+      background: rgba(0,212,255,0.07);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      display: flex; flex-direction: column;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,212,255,0.3);
+      box-shadow: 0 12px 40px rgba(0,212,255,0.07);
+    }
+    .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.87rem;
+      color: var(--dim);
+      flex: 1;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .project-links {
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .project-link {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: opacity 0.2s;
+    }
+    .project-link:hover { opacity: 0.7; }
+    .project-card .exp-tags { margin-top: 0; }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+    }
+    .skill-group-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-chip {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      background: rgba(226,232,240,0.05);
+      border: 1px solid rgba(226,232,240,0.1);
+      color: var(--dim);
+      transition: all 0.2s;
+    }
+    .skill-chip:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: rgba(0,212,255,0.3);
+      color: var(--accent);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      text-align: center;
+      padding-bottom: 10rem;
+    }
+    .contact-email {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      display: inline-block;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+      margin: 2rem 0;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .social-links {
+      display: flex; justify-content: center; gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .social-link {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      color: var(--dim);
+    }
+    .social-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.06);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── REVEAL ANIMATION ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 100%; height: 1px;
+      background: var(--border);
+      position: relative; z-index: 1;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.75rem; }
+      section { padding: 5rem 1.25rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-photo-wrap { max-width: 260px; }
+      .exp-card { grid-template-columns: 1fr; }
+      .exp-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Sidharth Mathur</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-eyebrow">MEng Robotics · University of Maryland</div>
+    <h1 class="hero-name">Sidharth<br/><span>Mathur</span></h1>
+    <div class="hero-typed" id="typed"></div>
+    <p class="hero-sub">
+      Building perception systems that help robots understand the world:
+      from depth estimation pipelines to multimodal vision models.
+    </p>
+    <div class="hero-ctas">
+      <a href="assets/SidharthMathurResumeMar.pdf" target="_blank" class="btn btn-primary">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 18l-4-4h2.5v-4h3v4H16l-4 4z"/></svg>
+        Resume
+      </a>
+      <a href="https://www.linkedin.com/in/sidharth-mathur/" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/sid-mat" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-photo-wrap reveal">
+        <!-- Replace the placeholder below with: <img src="./photo.jpg" alt="Sid [LASTNAME]" class="about-photo"> -->
+        <!-- <div class="about-photo-placeholder">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>add photo.jpg</span>
+        </div> -->
+        <img src="assets/sid.png" alt="Sidharth Mathur" class="about-photo">
+      </div>
+      <div class="about-text reveal">
+        <h2 class="section-title">Machines that see.<br/>Systems that scale.</h2>
+        <p>
+          I'm a first-year MEng Robotics student at <strong>University of Maryland, College Park</strong>, 
+          specializing in perception robotics and computer vision. Before grad school, I spent 2+ years as an 
+          <strong>ML Engineer at Clutterbot</strong>, where I built and shipped production grade perception stacks solving problems like 
+          obstacle avoidance, metric depth estimation, object detection, sensur fusion and 3D Reconstruction.
+        </p>
+        <p>
+          My work sits at the intersection of <strong>3D scene understanding, deep learning, and real-world robotics</strong>. 
+          I care about systems that actually work outside the lab: robust, efficient, deployable.
+        </p>
+        <p>
+          Currently exploring multimodal vision (audio,tactile, X modalities with vision), planning algorithms, 
+          and control theory through coursework and research projects.
+        </p>
+        <div class="about-stats">
+          <div>
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Years industry ML/Perception</div>
+          </div>
+          <!-- <div>
+            <div class="stat-num">4</div>
+            <div class="stat-label">Grad robotics courses</div>
+          </div>
+          <div>
+            <div class="stat-num">F-1</div>
+            <div class="stat-label">CPT-eligible May 2025</div>
+          </div> -->
+          <div>
+            <div class="stat-num">UMD</div>
+            <div class="stat-label">College Park, Maryland</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">Where I've worked</h2>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem;margin-top:2.5rem;">
+
+      <div class="exp-card reveal">
+        <div>
+          <div class="exp-role">Machine Learning Engineer</div>
+          <div class="exp-company">Clutterbot &nbsp;·&nbsp; Robotics Startup</div>
+          <ul class="exp-bullets">
+            <li>Built end-to-end perception stack for autonomous mobile robots: obstacle avoidance, stereo depth estimation, and multi-class object detection deployed in real indoor environments.</li>
+            <li>Designed and implemented a modular sensor evaluation framework to benchmark camera-active sensor fusion configurations, cutting sensor selection time by ~40%.</li>
+            <li>Shipped YOLO-based detection pipeline achieving &lt;30ms inference on edge hardware; improved recall on cluttered shelving by 18% vs. baseline.</li>
+            <li>Collaborated cross-functionally with hardware and software teams in a fast-paced startup environment across the full ML lifecycle: data, training, deployment, monitoring.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">YOLO</span>
+            <span class="tag">DepthAI</span>
+            <span class="tag">ROS</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Python</span>
+            <span class="tag">C++</span>
+          </div>
+        </div>
+        <div>
+          <div class="exp-date">May 2023<br/>— May 2025</div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div>
+          <div class="exp-role">Machine Learning Intern</div>
+          <div class="exp-company">Clutterbot &nbsp;·&nbsp; Robotics Startup</div>
+          <ul class="exp-bullets">
+            <li>Scaled in-house perception dataset by 4x using Domain Adaptation techniques (like CycleGAN) to reduce sim-to-real gaps.</li>
+            <li>Devised a method for shape estimation of obstacles using only RGB images and background masks.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Deep Learning</span>
+            <span class="tag">PyTorch</span>
+          </div>
+        </div>
+        <div>
+          <div class="exp-date">Jan 2023<br/>— May 2023</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">Things I've built</h2>
+
+    <div class="projects-grid" style="margin-top:2.5rem;">
+<!-- 
+      <div class="project-card reveal">
+        <div class="project-num">01</div>
+        <div class="project-title">Audio-Visual Affordance Fields (AVAF)</div>
+        <div class="exp-tags">
+          <span class="tag">Multimodal CV</span>
+          <span class="tag">NeRF/Affordance</span>
+          <span class="tag">PyTorch</span>
+        </div>
+        <p class="project-desc" style="margin-top:1rem;">
+          CMSC848M final project. Grounding robot affordances from synchronized audio-visual signals, learning where and how a robot can act in an environment using implicit neural representations. 
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/sid-mat/avaf" class="project-link" target="_blank">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="project-link">Report →</a>
+        </div>
+      </div> -->
+
+      <div class="project-card reveal">
+        <div class="project-num">02</div>
+        <div class="project-title">Routing MVLMs</div>
+        <div class="exp-tags">
+          <span class="tag">Foundation Model</span>
+          <span class="tag">Multimodal Evaluation</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">VLM</span>
+        </div>
+        <p class="project-desc" style="margin-top:1rem;">
+         Building a cost-aware router for multimodal VLM queries, intelligently assigning tasks to the smallest capable model based on
+task and complexity to reduce compute cost and inference latency.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/sid-mat/routevlm" class="project-link">
+             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              RouteVLM
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">03</div>
+        <div class="project-title">End-to-End Vision-based Vehicle Control using RL</div>
+        <div class="exp-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Reinforcement Learning</span>
+          <span class="tag">PPO Policy</span>
+          <span class="tag">Controls</span>
+        </div>
+        <p class="project-desc" style="margin-top:1rem;">
+          Developed an end-to-end embodied learning vision-based pipeline combining CNN-based perception with Reinforcement
+Leaning policies trained in simulation, focusing on perception-driven control and sim-based validation.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/sid-mat/Duckietown-RL" class="project-link" target="_blank">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Duckietown-RL
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">04</div>
+        <div class="project-title">Motion Planning : RRT* + Trajectory Smoother</div>
+        <div class="exp-tags">
+          <span class="tag">RRT*</span>
+          <span class="tag">Greedy Planner</span>
+          <span class="tag">Modelling</span>
+          <span class="tag">Kinematics</span>
+        </div>
+        <p class="project-desc" style="margin-top:1rem;">
+          6-axis robot trajectory planner using DH parameters, Jacobian-based IK with damped least squares, RRT* with shortcut smoothing, and warm-started IK for real-time replanning. Visualized in a custom sim environment.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/sid-mat/6axisArm_Planner_Eval" class="project-link" target="_blank">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            PlannerEval
+          </a>
+        </div>
+      </div>
+
+      <!-- <div class="project-card reveal">
+        <div class="project-num">05</div>
+        <div class="project-title">[ADD YOUR PROJECT]</div>
+        <div class="exp-tags">
+          <span class="tag">Tag1</span>
+          <span class="tag">Tag2</span>
+        </div>
+        <p class="project-desc" style="margin-top:1rem;">
+          Add another project here — coursework, personal, or from Clutterbot (if shareable). One line on what it does, one line on the impact/result.
+        </p>
+        <div class="project-links">
+          <a href="#" class="project-link">GitHub →</a>
+        </div>
+      </div> -->
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2 class="section-title">Technical toolkit</h2>
+
+    <div class="skills-grid" style="margin-top:2.5rem;">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Perception</div>
+        <div class="skill-list">
+          <span class="skill-chip">OpenCV</span>
+          <span class="skill-chip">Computer Vision</span>
+          <span class="skill-chip">Geometric Vision</span>
+          <span class="skill-chip">Depth Estimation</span>
+          <span class="skill-chip">Object Detection</span>
+          <span class="skill-chip">Stereo Vision</span>
+          <span class="skill-chip">3D Reconstruction</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">ML / Deep Learning</div>
+        <div class="skill-list">
+          <span class="skill-chip">PyTorch</span>
+          <span class="skill-chip">Reinforcement Learning</span>
+          <span class="skill-chip">PEFT</span>
+          <span class="skill-chip">Transformers</span>
+          <span class="skill-chip">Multimodal Models</span>
+          <span class="skill-chip">LLM</span>
+          <span class="skill-chip">RAG</span>
+          <span class="skill-chip">Model Deployment</span>
+          <span class="skill-chip">Edge Inference</span>
+          <span class="skill-chip">Agentic AI</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Robotics</div>
+        <div class="skill-list">
+          <span class="skill-chip">ROS / ROS2</span>
+          <span class="skill-chip">Gazebo</span>
+          <span class="skill-chip">3D Navigation</span>
+          <span class="skill-chip">Robot Modelling</span>
+          <span class="skill-chip">Motion Planning</span>
+          <span class="skill-chip">Kinematics</span>
+          <span class="skill-chip">Controls</span>
+          <span class="skill-chip">SLAM</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages & Tools</div>
+        <div class="skill-list">
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">C++</span>
+          <span class="skill-chip">Git</span>
+          <span class="skill-chip">Docker</span>
+          <span class="skill-chip">Linux</span>
+          <span class="skill-chip">NumPy</span>
+          <span class="skill-chip">MATLAB</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label" style="justify-content:center;">Contact</div>
+    <h2 class="section-title">Let's talk</h2>
+    <p style="color:var(--dim);max-width:440px;margin:0 auto 0.5rem;">
+      Looking for Summer 2026 internships in Perception Robotics, CV/ML, and Embodied AI. 
+    </p>
+    
+    <div class="social-links">
+      <!-- <a href="mailto:sidmathur003@gmail.com" class="contact-email">[YOUR-EMAIL]</a> -->
+      <a href="mailto:sidmathur003@gmail.com" class="social-link" title="Email">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 13.065L0 6V18a2 2 0 002 2h20a2 2 0 002-2V6l-12 7.065zM12 10.935L24 4H0l12 6.935z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/sidharth-mathur/" target="_blank" class="social-link" title="LinkedIn">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://github.com/sid-mat" target="_blank" class="social-link" title="GitHub">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    built by sid   
+  </footer>
+
+  <script>
+    // ── TYPED TEXT ──
+    const lines = [
+      'perception_engineer()',
+      'ML Engineer',
+      'Robotics Software Developer',
+      'MEng_Robotics @ UMD',
+    ];
+    let li = 0, ci = 0, deleting = false;
+    const el = document.getElementById('typed');
+    function type() {
+      const current = lines[li];
+      if (!deleting) {
+        el.textContent = current.slice(0, ++ci);
+        if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+      } else {
+        el.textContent = current.slice(0, --ci);
+        if (ci === 0) { deleting = false; li = (li + 1) % lines.length; }
+      }
+      setTimeout(type, deleting ? 40 : 70);
+    }
+    type();
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── NAV ACTIVE ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
